@@ -1,6 +1,5 @@
 package com.example.composeapp.presentation.movie_detail
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -30,8 +29,6 @@ fun MovieDetailView(movieId: Int, name: String) {
 
     val state = viewModel.movieState.collectAsState()
     val movie = state.value.movie
-
-    Log.d("movie_details", movie.toString())
 
     viewModel.getMovie(id = movieId)
 
