@@ -1,17 +1,17 @@
-package com.example.composeapp.presentation.movie
+package com.example.composeapp.presentation.movie_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeapp.domain.model.Movie
 import com.example.composeapp.domain.model.PageInfo
 import com.example.composeapp.domain.repository.MovieRepository
-import com.example.composeapp.presentation.movie.model.AdsGroupItem
-import com.example.composeapp.presentation.movie.model.ListItem
-import com.example.composeapp.presentation.movie.model.MovieAdsItem
-import com.example.composeapp.presentation.movie.model.MovieItem
+import com.example.composeapp.presentation.movie_list.model.AdsGroupItem
+import com.example.composeapp.presentation.movie_list.model.ListItem
+import com.example.composeapp.presentation.movie_list.model.MovieAdsItem
+import com.example.composeapp.presentation.movie_list.model.MovieItem
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,8 +20,8 @@ class MovieListViewModel @Inject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    private val viewState = MutableSharedFlow<MovieListState>()
-    val movieState = viewState.asSharedFlow()
+    private val viewState = MutableStateFlow(MovieListState.empty())
+    val listState = viewState.asStateFlow()
 
     private var state: MovieListState = MovieListState.empty()
 
@@ -56,6 +56,17 @@ class MovieListViewModel @Inject constructor(
                     items = items,
                     nextPage = pageInfo.nextPage,
                     isLoading = false
+                )
+            )
+        }
+    }
+
+    fun saveState(lastPosition: Int, scrollOffset: Int) {
+        viewModelScope.launch {
+            viewState.emit(
+                state.copy(
+                    lastPosition = lastPosition,
+                    scrollOffset = scrollOffset
                 )
             )
         }

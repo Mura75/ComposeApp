@@ -1,4 +1,4 @@
-package com.example.composeapp.presentation.movie.model
+package com.example.composeapp.presentation.movie_list.model
 
 data class AdsGroupItem(
     val ads: List<MovieAdsItem>

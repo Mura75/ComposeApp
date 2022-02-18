@@ -10,7 +10,7 @@ import retrofit2.http.Query
 interface MovieApi {
 
     @GET("movie/{movie_id}")
-    suspend fun getMovie(@Path("movie_id") movieId: Int) : Response<MovieDto>
+    suspend fun getMovieDetail(@Path("movie_id") movieId: Int) : Response<MovieDto>
 
     @GET("movie/popular")
     suspend fun getPopularMovies(@Query("page") page: Int) : Response<MoviesResponse>

@@ -1,4 +1,4 @@
-package com.example.composeapp.presentation.movie.view
+package com.example.composeapp.presentation.movie_list.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberImagePainter
 import com.example.composeapp.R
 import com.example.composeapp.domain.model.Movie
-import com.example.composeapp.presentation.movie.model.AdsGroupItem
-import com.example.composeapp.presentation.movie.model.MovieItem
+import com.example.composeapp.presentation.movie_list.model.AdsGroupItem
+import com.example.composeapp.presentation.movie_list.model.MovieItem
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
@@ -68,7 +68,9 @@ object MovieList {
                     ),
                     contentDescription = null
                 )
-                Column {
+                Column(
+                    modifier = Modifier.padding(end = 8.dp),
+                ) {
                     Text(
                         modifier = Modifier.padding(top = 8.dp),
                         text = "${item.movie.originalTitle}",

@@ -1,6 +1,7 @@
 package com.example.composeapp.data.movie
 
 import com.example.composeapp.data.movie.remote.MovieApi
+import com.example.composeapp.domain.model.Movie
 import com.example.composeapp.domain.model.PageInfo
 import com.example.composeapp.domain.repository.MovieRepository
 import kotlinx.coroutines.delay
@@ -32,6 +33,16 @@ class MovieRepositoryImpl @Inject constructor(
                 ads = emptyList(),
                 isPageEnd = false
             )
+        }
+    }
+
+    override suspend fun getMovieDetail(id: Int): Movie? {
+        val response = movieApi.getMovieDetail(movieId = id)
+        val body = response.body()
+        if (response.isSuccessful && body != null) {
+            return body.mapToDomain()
+        } else {
+            return null
         }
     }
 }
