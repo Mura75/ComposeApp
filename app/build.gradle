@@ -61,15 +61,22 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    def compose_version = "1.1.1"
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
+    implementation "com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha"
+    implementation "com.google.accompanist:accompanist-pager:0.24.2-alpha"
+
+    implementation "androidx.navigation:navigation-compose:2.4.1"
+
+    def dagger_version = "2.41"
     implementation "com.google.dagger:dagger:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
+    def hilt_version = "2.41"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
@@ -94,10 +101,4 @@ dependencies {
     implementation("io.coil-kt:coil-compose:1.4.0")
 
     implementation 'com.github.a914-gowtham:compose-ratingbar:1.2.3'
-
-    implementation "com.google.accompanist:accompanist-swiperefresh:0.24.2-alpha"
-    implementation "com.google.accompanist:accompanist-pager:0.24.2-alpha"
-
-    implementation "androidx.navigation:navigation-compose:2.4.1"
-
 }
