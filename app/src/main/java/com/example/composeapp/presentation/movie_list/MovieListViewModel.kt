@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.composeapp.domain.model.Movie
 import com.example.composeapp.domain.model.PageInfo
-import com.example.composeapp.domain.repository.MovieRepository
+import com.example.composeapp.domain.use_case.GetMoviesUseCase
 import com.example.composeapp.presentation.movie_list.model.AdsGroupItem
 import com.example.composeapp.presentation.movie_list.model.ListItem
 import com.example.composeapp.presentation.movie_list.model.MovieAdsItem
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    private val getMoviesUseCase: GetMoviesUseCase
 ) : ViewModel() {
 
     private val viewState = MutableStateFlow(MovieListState.empty())
@@ -31,7 +31,7 @@ class MovieListViewModel @Inject constructor(
 
     fun getMovies() {
         viewModelScope.launch {
-            val pageInfo = movieRepository.getMovies(page = state.nextPage)
+            val pageInfo = getMoviesUseCase.execute(page = state.nextPage)
             val items = state.items + pageInfo.moviesWithAds()
             updateState(
                 state = state.copy(
@@ -48,7 +48,7 @@ class MovieListViewModel @Inject constructor(
             updateState(
                 state = MovieListState.empty()
             )
-            val pageInfo = movieRepository.getMovies(page = state.nextPage)
+            val pageInfo = getMoviesUseCase.execute(page = state.nextPage)
             val items = state.items + pageInfo.moviesWithAds()
 
             updateState(
