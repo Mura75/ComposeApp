@@ -273,8 +273,7 @@ object MovieList {
                 }
 
                 view
-            },
-            update = {}
+            }
         )
     }
 }
