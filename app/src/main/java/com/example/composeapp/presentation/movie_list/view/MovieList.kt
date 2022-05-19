@@ -1,5 +1,8 @@
 package com.example.composeapp.presentation.movie_list.view
 
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,7 +23,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import coil.compose.rememberImagePainter
+import coil.load
 import com.example.composeapp.R
 import com.example.composeapp.domain.model.Movie
 import com.example.composeapp.presentation.movie_list.model.AdsGroupItem
@@ -244,6 +249,34 @@ object MovieList {
             color = colorResource(id = R.color.purple_500)
         )
     }
+
+    @Composable
+    fun LegacyMovieItem(
+        item: MovieItem,
+        onItemClick: (Movie) -> Unit
+    ) {
+        AndroidView(
+            modifier = Modifier.fillMaxWidth(),
+            factory = {
+               val view = LayoutInflater.from(it)
+                   .inflate(R.layout.movie_item, null, false)
+                val title = view.findViewById<TextView>(R.id.tvTitle)
+                val description = view.findViewById<TextView>(R.id.tvDesc)
+                val image = view.findViewById<ImageView>(R.id.imageView)
+
+                title.text = item.movie.title
+                description.text = item.movie.overview
+                image.load(item.movie.posterPath)
+
+                view.setOnClickListener {
+                    onItemClick.invoke(item.movie)
+                }
+
+                view
+            },
+            update = {}
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -283,4 +316,20 @@ private fun MovieItemPreview() {
 @Composable
 private fun LoadingItemPreview() {
     MovieList.LoadingItem()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun LegacyMovieItemPreview() {
+    MovieList.LegacyMovieItem(
+        item = MovieItem(
+            movie = Movie(
+                id = 1,
+                originalTitle = "Title",
+                voteAverage = 7.5,
+                overview = "Description"
+            )
+        ),
+        onItemClick = {}
+    )
 }

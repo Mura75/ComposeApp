@@ -98,7 +98,7 @@ fun MovieListView(navController: NavController) {
                         itemsIndexed(items = movieList) { index, item ->
                             when(item) {
                                 is MovieItem -> {
-                                    MovieList.MovieItem(
+                                    MovieList.LegacyMovieItem(
                                         item = item,
                                         onItemClick = {
                                             navController.navigate(
