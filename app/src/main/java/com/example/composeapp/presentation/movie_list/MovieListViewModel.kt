@@ -30,12 +30,10 @@ class MovieListViewModel @Inject constructor(
     }
 
     fun onEvent(event: MovieListEvent) {
-        viewModelScope.launch {
-            when (event) {
-                MovieListEvent.Refresh -> refresh()
-                MovieListEvent.LoadMore -> getMovies()
-                is MovieListEvent.SaveState -> saveState(lastPosition = event.lastPosition, scrollOffset = event.scrollOffset)
-            }
+        when (event) {
+            MovieListEvent.Refresh -> refresh()
+            MovieListEvent.LoadMore -> getMovies()
+            is MovieListEvent.SaveState -> saveState(lastPosition = event.lastPosition, scrollOffset = event.scrollOffset)
         }
     }
 
