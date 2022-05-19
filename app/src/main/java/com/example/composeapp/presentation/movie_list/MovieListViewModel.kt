@@ -29,7 +29,17 @@ class MovieListViewModel @Inject constructor(
         getMovies()
     }
 
-    fun getMovies() {
+    fun onEvent(event: MovieListEvent) {
+        viewModelScope.launch {
+            when (event) {
+                MovieListEvent.Refresh -> refresh()
+                MovieListEvent.LoadMore -> getMovies()
+                is MovieListEvent.SaveState -> saveState(lastPosition = event.lastPosition, scrollOffset = event.scrollOffset)
+            }
+        }
+    }
+
+    private fun getMovies() {
         viewModelScope.launch {
             val pageInfo = getMoviesUseCase.execute(page = state.nextPage)
             val items = state.items + pageInfo.moviesWithAds()
@@ -43,7 +53,7 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun refresh() {
+    private fun refresh() {
         viewModelScope.launch {
             updateState(
                 state = MovieListState.empty()
@@ -61,7 +71,7 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun saveState(lastPosition: Int, scrollOffset: Int) {
+    private fun saveState(lastPosition: Int, scrollOffset: Int) {
         viewModelScope.launch {
             viewState.emit(
                 state.copy(

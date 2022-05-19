@@ -18,7 +18,13 @@ class MovieDetailViewModel @Inject constructor(
     private val viewState = MutableStateFlow(MovieDetailState.empty())
     val movieState = viewState.asStateFlow()
 
-    fun getMovie(id: Int) {
+    fun onEvent(event: MovieDetailEvent) {
+        when (event) {
+            is MovieDetailEvent.MovieDetail -> getMovie(id = event.id)
+        }
+    }
+
+    private fun getMovie(id: Int) {
         viewModelScope.launch {
             val movie = getMovieDetailsUseCase.execute(id = id)
             delay(1000)

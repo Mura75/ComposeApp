@@ -57,7 +57,9 @@ fun MovieListView(navController: NavController) {
                 SwipeRefresh(
                     modifier = Modifier.fillMaxSize(),
                     state = isRefreshing,
-                    onRefresh = { viewModel.refresh() }
+                    onRefresh = {
+                        viewModel.onEvent(MovieListEvent.Refresh)
+                    }
                 ) {
                     LazyColumn(
                         state = listState,
@@ -114,7 +116,7 @@ fun MovieListView(navController: NavController) {
                             }
 
                             if (index == movieList.lastIndex) {
-                                viewModel.getMovies()
+                                viewModel.onEvent(MovieListEvent.LoadMore)
                                 if (!state.value.isLoadingMoreEnd) {
                                     MovieList.LoadingItem()
                                 }
@@ -136,9 +138,11 @@ fun MovieListView(navController: NavController) {
 
     DisposableEffect(listState) {
         onDispose {
-            viewModel.saveState(
-                lastPosition = listState.firstVisibleItemIndex,
-                scrollOffset = listState.firstVisibleItemScrollOffset
+            viewModel.onEvent(
+                event = MovieListEvent.SaveState(
+                    lastPosition = listState.firstVisibleItemIndex,
+                    scrollOffset = listState.firstVisibleItemScrollOffset
+                )
             )
         }
     }

@@ -30,7 +30,7 @@ fun MovieDetailView(movieId: Int, name: String) {
     val state = viewModel.movieState.collectAsState()
     val movie = state.value.movie
 
-    viewModel.getMovie(id = movieId)
+    viewModel.onEvent(MovieDetailEvent.MovieDetail(id = movieId))
 
     ComposeAppTheme(
         darkTheme = false
@@ -41,9 +41,7 @@ fun MovieDetailView(movieId: Int, name: String) {
             ) {
                 TopAppBar(
                     title = {
-                        Text(
-                            text = name
-                        )
+                        Text(text = name)
                     }
                 )
                 Crossfade(
